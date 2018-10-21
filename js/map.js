@@ -3,6 +3,7 @@
 var ads = [];
 var NUMBER_OF_ADS = 8;
 var tokyoMap = document.body.querySelector('.map__pins');
+var mapCard = document.body.querySelector('#popup-template').content;
 
 
 var AVATARNUMBERS = ['01', '02', '03', '04', '05', '06', '07', '08'];
@@ -123,3 +124,41 @@ var createFragments = function (array) {
 };
 
 createFragments(ads);
+
+var translateToRus = function(type) {
+  if (type === 'flat'){
+    return 'квартира';
+  } else if (type === 'house') {
+    return 'дом';
+  } else {
+    return 'бунгало';
+  }
+};
+
+
+var renderMapCard  = function (array) {
+  var mapCardEllement = mapCard.cloneNode(true);
+  var offer = array.offer;
+
+  mapCardEllement.querySelector('.popup__title').textContent = offer.title;
+  mapCardEllement.querySelector('.popup__address').textContent = offer.address;
+  mapCardEllement.querySelector('.popup__price').textContent = offer.price + ' &#x20bd' + '/ночь';
+  mapCardEllement.querySelector('.popup__type').textContent = translateToRus(offer.type);
+  mapCardEllement.querySelector('.popup__roomsguests').textContent = offer.guests + 'человек в ' + offer.rooms + ' комнтах';
+  mapCardEllement.querySelector('.popup__time').textContent = 'Заезд после ' + offer.checkin + ' , выезд до ' + offer.checkout;
+  for (var i = 0; i < offer.features.length; i++) {
+    mapCardEllement.querySelector('.popup__features').appendChild(offer.features[i]);
+  }
+  mapCardEllement.querySelector('.popup__description').textContent = offer.description;
+  return mapCardEllement;
+};
+
+var generateMapCard = function(advert) {
+  var popup = document.querySelector('.popup');
+  var fragment = document.createDocumentFragment();
+  fragment.appendChild(renderMapCard(advert));
+  popup.parentNode.repleceChild(fragment, dialogPanel);
+
+  var avatar = document.querySelector('.popup__avatar');
+  avatar.setAttribute('src', advert.author.avatar);
+};
