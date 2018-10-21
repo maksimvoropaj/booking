@@ -2,6 +2,7 @@
 
 var ads = [];
 var NUMBER_OF_ADS = 8;
+var tokyoMap = document.body.querySelector('.map__pins');
 
 
 var AVATARNUMBERS = ['01', '02', '03', '04', '05', '06', '07', '08'];
@@ -24,9 +25,9 @@ var MIN_GUESTS = 1;
 var MAX_GUESTS = 10;
 var CHECKS = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'paking', 'washer', 'elevator', 'conditioner'];
-var MIN_X_LOCATION = 300;
-var MAX_X_LOCATION = 900;
-var MIN_Y_LOCATION = 100;
+var MIN_X_LOCATION = 100;
+var MAX_X_LOCATION = 1000;
+var MIN_Y_LOCATION = 300;
 var MAX_Y_LOCATION = 500;
 
 
@@ -50,7 +51,7 @@ var getRandomArray = function (array) {
   var newArray = [];
   var arrayLength = array.length;
   var newArrayLength = getRandomNumber(1, array.length);
-  for (var i = 0; i = newArrayLength; i++) {
+  for (var i = 0; i < newArrayLength; i++) {
     newArray[i] = array[i];
   }
   return newArray;
@@ -91,3 +92,34 @@ var createAllAds = function (num) {
 };
 
 createAllAds(NUMBER_OF_ADS);
+
+
+var createLabel = function (array) {
+  var label = document.createElement('button');
+  var labelImg = document.createElement('img');
+  var imgWidth = 40;
+  var imgHeight = 40;
+  var labelStyleLeft = Math.abs(array.location.x) + imgWidth;
+  var labelStyleTop = Math.abs(array.location.y) + imgHeight;
+
+  label.classList.add('map__pin');
+  label.setAttribute('style', 'left: ' + labelStyleLeft + 'px; top: ' + labelStyleTop + 'px;');
+
+  labelImg.classList.add('rounded');
+  labelImg.setAttribute('src', array.author.avatar);
+  labelImg.setAttribute('width', imgWidth);
+  labelImg.setAttribute('height', imgHeight);
+  labelImg.setAttribute('tabIndex', '0');
+  label.appendChild(labelImg);
+  return label;
+};
+
+var createFragments = function (array) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < array.length; i++) {
+    fragment.appendChild(createLabel(array[i]));
+  }
+  tokyoMap.appendChild(fragment);
+};
+
+createFragments(ads);
