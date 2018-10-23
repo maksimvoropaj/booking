@@ -3,7 +3,17 @@
 var ads = [];
 var NUMBER_OF_ADS = 8;
 var tokyoMap = document.body.querySelector('.map__pins');
-var mapCard = document.body.querySelector('#popup-template').content;
+var mapCard = document.querySelector('template').content;
+var field = document.querySelectorAll('fieldset');
+
+var fieldDisable = function () {
+  for (var i = 0; i < field.length; i++) {
+    field[i].setAttribute("disabled", "disabled");
+  };
+};
+fieldDisable();
+
+
 
 
 var AVATARNUMBERS = ['01', '02', '03', '04', '05', '06', '07', '08'];
@@ -123,7 +133,7 @@ var createFragments = function (array) {
   tokyoMap.appendChild(fragment);
 };
 
-createFragments(ads);
+
 
 var translateToRus = function(type) {
   if (type === 'flat'){
@@ -162,3 +172,23 @@ var generateMapCard = function(advert) {
   var avatar = document.querySelector('.popup__avatar');
   avatar.setAttribute('src', advert.author.avatar);
 };
+
+
+
+
+
+var map = document.querySelector('.map');
+var form = document.querySelector('.notice__form');
+
+
+
+map.addEventListener('click', function(evt){
+  if(map.classList.contains('map--faded')) {
+    map.classList.remove('map--faded');
+    form.classList.remove('notice__form--disabled');
+    for (var i = 0; i < field.length; i++) {
+      field[i].removeAttribute("disabled", "disabled");
+    };
+    createFragments(ads);
+  }
+});
