@@ -192,3 +192,63 @@ map.addEventListener('click', function(evt){
     createFragments(ads);
   }
 });
+
+
+
+
+
+
+
+var form = document.querySelector('.notice__form');
+var typeOfFlat = form.querySelector('#type');
+var price = form.querySelector('#price');
+var roomNumber = form.querySelector('#room_number');
+var capacity = form.querySelector('#capacity');
+var timeIn = document.querySelector('#timein');
+var timeOut = document.querySelector('#timeout');
+
+var TIMES_MAP = {
+  '12': '12',
+  '13': '13',
+  '14': '14'
+};
+var TYPES_MAP = {
+  'flat': 1000,
+  'bungalo': 0,
+  'house': 5000,
+  'palace': 10000
+};
+var GUEST_MAP = {
+  '1': '1',
+  '2': '2' || '1',
+  '3': '2' || '1' || '3',
+  '100': '0'
+};
+
+
+timeIn.addEventListener('change', function (evt) {
+  timeOut.value = TIMES_MAP[timeIn.value];
+});
+
+typeOfFlat.addEventListener('change', function () {
+  price.value = TYPES_MAP[typeOfFlat.value];
+});
+
+roomNumber.addEventListener('change', function () {
+  capacity.value = GUEST_MAP[roomNumber.value];
+});
+
+
+
+
+form.addEventListener('invalid', function (evt) {
+  evt.target.classList.add('error');
+}, true);
+
+form.addEventListener('change', function (evt) {
+  if (evt.target.classList.contains('error')) {
+    if (evt.target.validity.valid) {
+      evt.target.classList.remove('error');
+    }
+  }
+}, true);
