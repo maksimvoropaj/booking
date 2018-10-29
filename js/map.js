@@ -194,6 +194,29 @@ map.addEventListener('click', function(evt){
 });
 
 
+var openPopupDialog = function(evt) {
+  var clickedPinAvatar = evt.target;
+  var clickedPinWrap = clickedPinAvatar.parentNode;
+
+  if (clickedPinAvatar.classList.contains('rounded') && !(clickedPinWrap.classList.contains('pin__main'))) {
+    var imageSrc = clickedPinAvatar.getAttribute('src');
+
+    for (var i=0; i < ads.length; i++) {
+      if (ads[i].author.avatar === imageSrc) {
+        var index = i;
+      }
+    }
+    generateMapCard(ads[index]);
+
+    deleteClass(pins, 'pin--active');
+    clickedPinWrap.classList.add('pin--active');
+  }
+};
+
+tokyoMap.addEventListener('click', function(evt) {
+  openPopupDialog(evt);
+});
+
 
 
 
